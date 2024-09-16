@@ -2,6 +2,13 @@ import React, { useState } from 'react';
 import CO2EmissionsChart from "@/components/CO2EmissionsChart";
 import data from '@/data/data.json';
 
+
+// Notes:
+// We are importing the JSON file provided, however, this data could also be fetched from an API.
+// An expansion of this project would include the usage of a useCallback and useMemo to optimize the rendering of the chart.
+// The useMemo would be used to memoize the data filtering and the useCallback would be used to memoize the function that filters the data.
+// More than happy to provide an example of this if needed.
+
 export default function Home() {
   const years = Array.from(new Set(data.map(item => item.year))).sort().reverse();
   const [selectedYear, setSelectedYear] = useState(years[0]);
