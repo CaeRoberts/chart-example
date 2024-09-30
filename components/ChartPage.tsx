@@ -16,10 +16,10 @@ export default function Home() {
 
   }, []);
 
-  const expensiveFunction = useMemo(() => {
-    console.log('Expensive function called');
-    return data.filter(item => item.year === selectedYear);
-  }, [selectedYear]);
+  // const expensiveFunction = useMemo(() => {
+  //   console.log('Expensive function called');
+  //   return data.filter(item => item.year === selectedYear);
+  // }, [selectedYear]);
 
   return (
     <div className="w-full flex flex-col justify-center items-center">
