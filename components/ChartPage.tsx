@@ -1,17 +1,25 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState, useCallback } from 'react';
 import CO2EmissionsChart from "@/components/CO2EmissionsChart";
 import data from '@/data/data.json';
-
-
-// Notes:
-// We are importing the JSON file provided, however, this data could also be fetched from an API.
-// An expansion of this project would include the usage of a useCallback and useMemo to optimize the rendering of the chart.
-// The useMemo would be used to memoize the data filtering and the useCallback would be used to memoize the function that filters the data.
-// More than happy to provide an example of this if needed.
 
 export default function Home() {
   const years = Array.from(new Set(data.map(item => item.year))).sort().reverse();
   const [selectedYear, setSelectedYear] = useState(years[0]);
+
+  const handleYearChange = useCallback((event: React.ChangeEvent<HTMLSelectElement>) => {
+    const newYear = event.target.value;
+    setSelectedYear(newYear);
+    console.log(`Year changed to ${newYear}`);
+
+    // A good use of the useCallback called here would be to fetch data from an API.
+    // const response = await fetch(`https://api.example.com/data/${newYear}`);
+
+  }, []);
+
+  const expensiveFunction = useMemo(() => {
+    console.log('Expensive function called');
+    return data.filter(item => item.year === selectedYear);
+  }, [selectedYear]);
 
   return (
     <div className="w-full flex flex-col justify-center items-center">
@@ -20,7 +28,7 @@ export default function Home() {
           <select 
             className="w-full p-2 border rounded-md"
             value={selectedYear}
-            onChange={(e) => setSelectedYear(e.target.value)}
+            onChange={handleYearChange} // Use the memoized function here
           >
             {years.map(year => (
               <option key={year} value={year}>Y-{year}</option>
